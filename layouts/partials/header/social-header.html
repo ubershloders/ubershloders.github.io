@@ -1,0 +1,20 @@
+<div class="header-social">
+    {{- with .Site.Menus.social -}}
+        <div class="social-icons">
+            {{ range . }}
+                <a
+                    href='{{ .URL }}'
+                    {{ if eq (default true .Params.newTab) true }}target="_blank"{{ end }}
+                    {{ with .Name }}title="{{ . }}"{{ end }}
+                    rel="me"
+                    class="social-icon"
+                >
+                    {{ $icon := default "link" .Params.Icon }}
+                    {{ with $icon }}
+                        <i class="{{ . }}"></i>
+                    {{ end }}
+                </a>
+            {{ end }}
+        </div>
+    {{- end -}}
+</div>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Ubersholder&#39;s journal</title>
+        <link>http://localhost:1313/post/</link>
+        <description>Recent content in Posts on Ubersholder&#39;s journal</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <lastBuildDate>Thu, 03 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Building a Robust Monitoring Strategy for Microservices</title>
+        <link>http://localhost:1313/post/robust-monitoring-strategy/</link>
+        <pubDate>Thu, 03 Jul 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/post/robust-monitoring-strategy/</guid>
+        <description>&lt;h1 id=&#34;building-a-robust-monitoring-strategy-for-microservices&#34;&gt;Building a Robust Monitoring Strategy for Microservices
+&lt;/h1&gt;&lt;p&gt;In today&amp;rsquo;s distributed systems landscape, effective monitoring is not just a nice-to-have—it&amp;rsquo;s essential. As systems grow in complexity, traditional monitoring approaches often fall short. This post outlines a comprehensive strategy for monitoring microservice architectures, drawing from my experience as an SRE.&lt;/p&gt;
+&lt;h2 id=&#34;the-four-golden-signals&#34;&gt;The Four Golden Signals
+&lt;/h2&gt;&lt;p&gt;Google&amp;rsquo;s SRE book popularized the four golden signals, which provide a solid foundation for monitoring any user-facing system:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Latency&lt;/strong&gt;: The time it takes to serve a request&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Traffic&lt;/strong&gt;: How much demand is placed on your system&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Errors&lt;/strong&gt;: Rate of requests that fail&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Saturation&lt;/strong&gt;: How &amp;ldquo;full&amp;rdquo; your service is&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These signals provide a holistic view of your system&amp;rsquo;s health from the user&amp;rsquo;s perspective.&lt;/p&gt;
+&lt;h2 id=&#34;layered-monitoring-approach&#34;&gt;Layered Monitoring Approach
+&lt;/h2&gt;&lt;p&gt;A robust monitoring strategy should include multiple layers:&lt;/p&gt;
+&lt;h3 id=&#34;infrastructure-monitoring&#34;&gt;Infrastructure Monitoring
+&lt;/h3&gt;&lt;p&gt;Monitor the fundamental resources your services depend on:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Example Prometheus alert for high CPU usage&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;alert&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;HighCPUUsage&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;expr&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; - &lt;span style=&#34;color:#ae81ff&#34;&gt;(avg by(instance) (irate(node_cpu_seconds_total{mode=&amp;#34;idle&amp;#34;}[5m])) * 100) &amp;gt; 80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;for&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;15m&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;labels&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;severity&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;warning&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;annotations&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;summary&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;High CPU usage detected&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;description&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;CPU usage is above 80% for more than 15 minutes on {{ $labels.instance }}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;application-monitoring&#34;&gt;Application Monitoring
+&lt;/h3&gt;&lt;p&gt;Instrument your code to expose key metrics:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Example Go code with Prometheus instrumentation&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;httpRequestDuration&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;prometheus&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewHistogramVec&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;prometheus&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HistogramOpts&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;Name&lt;/span&gt;:    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http_request_duration_seconds&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;Help&lt;/span&gt;:    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HTTP request duration in seconds&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;Buckets&lt;/span&gt;: []&lt;span style=&#34;color:#66d9ef&#34;&gt;float64&lt;/span&gt;{&lt;span style=&#34;color:#ae81ff&#34;&gt;0.01&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.05&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.5&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    },
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    []&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;handler&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;method&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;status&amp;#34;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;business-metrics&#34;&gt;Business Metrics
+&lt;/h3&gt;&lt;p&gt;Monitor metrics that directly relate to user experience and business outcomes.&lt;/p&gt;
+&lt;h2 id=&#34;implementing-slos&#34;&gt;Implementing SLOs
+&lt;/h2&gt;&lt;p&gt;Service Level Objectives provide a framework for setting realistic reliability targets:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Define what &amp;ldquo;good service&amp;rdquo; means for your users&lt;/li&gt;
+&lt;li&gt;Set achievable targets (e.g., 99.9% of requests under 300ms)&lt;/li&gt;
+&lt;li&gt;Create SLIs (Service Level Indicators) to measure against SLOs&lt;/li&gt;
+&lt;li&gt;Establish error budgets to balance reliability and innovation&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;practical-implementation-tips&#34;&gt;Practical Implementation Tips
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Start small&lt;/strong&gt;: Begin with critical user journeys&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Standardize&lt;/strong&gt;: Use consistent naming and labeling across services&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Automate&lt;/strong&gt;: Set up automated alerting with clear playbooks&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Iterate&lt;/strong&gt;: Regularly review and adjust your monitoring based on incidents and changing system behavior&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion
+&lt;/h2&gt;&lt;p&gt;Effective monitoring is a journey, not a destination. As your system evolves, so should your monitoring strategy. By focusing on user experience, implementing the right tools, and continuously improving, you can build a monitoring system that not only detects problems but helps prevent them.&lt;/p&gt;
+&lt;p&gt;In future posts, I&amp;rsquo;ll dive deeper into specific aspects of monitoring, including tool comparisons, alert tuning, and reducing alert fatigue.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;What monitoring challenges are you facing in your microservices architecture? Let me know in the comments below.&lt;/em&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Practical Kubernetes Debugging Techniques</title>
+        <link>http://localhost:1313/post/kubernetes-debugging/</link>
+        <pubDate>Wed, 25 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/post/kubernetes-debugging/</guid>
+        <description>&lt;h1 id=&#34;practical-kubernetes-debugging-techniques&#34;&gt;Practical Kubernetes Debugging Techniques
+&lt;/h1&gt;&lt;p&gt;When managing Kubernetes clusters in production, troubleshooting skills become invaluable. As an SRE, I&amp;rsquo;ve spent countless hours debugging Kubernetes issues. This post shares practical techniques that have saved me time and helped resolve complex problems.&lt;/p&gt;
+&lt;h2 id=&#34;understanding-the-debugging-process&#34;&gt;Understanding the Debugging Process
+&lt;/h2&gt;&lt;p&gt;Effective debugging in Kubernetes follows a structured approach:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Observe&lt;/strong&gt;: Gather information about the problem&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hypothesize&lt;/strong&gt;: Form a theory about what might be happening&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Test&lt;/strong&gt;: Perform actions to validate your hypothesis&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Act&lt;/strong&gt;: Implement a fix based on your findings&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;essential-kubectl-commands&#34;&gt;Essential kubectl Commands
+&lt;/h2&gt;&lt;p&gt;Here are some commands I use daily:&lt;/p&gt;
+&lt;h3 id=&#34;checking-pod-status-and-details&#34;&gt;Checking Pod Status and Details
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Get detailed information about a pod&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl describe pod &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Check pod logs&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl logs &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Check previous container logs if the container has restarted&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl logs &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt; --previous
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Stream logs live&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl logs -f &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;inspecting-resources&#34;&gt;Inspecting Resources
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Check events sorted by timestamp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl get events --sort-by&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;.metadata.creationTimestamp -n &amp;lt;namespace&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Check resource usage&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl top pods -n &amp;lt;namespace&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl top nodes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;interactive-debugging&#34;&gt;Interactive Debugging
+&lt;/h3&gt;&lt;p&gt;Sometimes you need to get inside a container to debug:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Start a shell in a running container&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl exec -it &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt; -- /bin/sh
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Run a temporary debugging pod&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl run debug-pod --rm -it --image&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;busybox -- /bin/sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;common-issues-and-solutions&#34;&gt;Common Issues and Solutions
+&lt;/h2&gt;&lt;h3 id=&#34;image-pull-errors&#34;&gt;Image Pull Errors
+&lt;/h3&gt;&lt;p&gt;If pods are stuck in &lt;code&gt;ImagePullBackOff&lt;/code&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Check image name and tag are correct&lt;/li&gt;
+&lt;li&gt;Verify registry credentials with &lt;code&gt;kubectl get secret&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Test pulling the image manually&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;resource-constraints&#34;&gt;Resource Constraints
+&lt;/h3&gt;&lt;p&gt;For pods in &lt;code&gt;Pending&lt;/code&gt; state:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Check if nodes have enough resources&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl describe nodes | grep -A &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Allocated resources&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Look for events showing resource issues&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl get events | grep -i &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;insufficient&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;network-connectivity-issues&#34;&gt;Network Connectivity Issues
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Debug network policies using a test pod&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl run network-test --rm -it --image&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;nicolaka/netshoot -- /bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;advanced-debugging-techniques&#34;&gt;Advanced Debugging Techniques
+&lt;/h2&gt;&lt;h3 id=&#34;using-ephemeral-debug-containers&#34;&gt;Using Ephemeral Debug Containers
+&lt;/h3&gt;&lt;p&gt;Kubernetes 1.18+ supports ephemeral containers for debugging:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl debug -it &amp;lt;pod-name&amp;gt; --image&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;busybox --target&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&amp;lt;container-name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;analyzing-cluster-wide-issues&#34;&gt;Analyzing Cluster-wide Issues
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Check control plane components&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl get componentstatuses
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Check API server logs (if running on-prem)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;kubectl logs -n kube-system kube-apiserver-&amp;lt;node-name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion
+&lt;/h2&gt;&lt;p&gt;Debugging Kubernetes issues effectively requires a combination of systematic approach and deep knowledge of how Kubernetes works. The techniques shared here should help you resolve common issues faster.&lt;/p&gt;
+&lt;p&gt;In future posts, I&amp;rsquo;ll cover more advanced debugging techniques including network packet capture, custom resource debugging, and operator troubleshooting.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;What&amp;rsquo;s the most challenging Kubernetes issue you&amp;rsquo;ve had to debug? Share your experience in the comments.&lt;/em&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

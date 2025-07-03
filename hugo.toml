@@ -1,0 +1,40 @@
+baseURL = "https://localhost:1313/"
+
+title = "Ubersholder's journal"
+defaultContentLanguage = "en"
+hasCJKLanguage = false
+
+theme = "hugo-theme-stack"
+
+# Disable comments
+disqusShortname = ""
+
+[pagination]
+pagerSize = 5
+
+[params]
+    mainSections = ["post"]
+    favicon = ""
+
+    [params.sidebar]
+        emoji = ""
+        subtitle = "DevOps things"
+
+        [params.sidebar.avatar]
+            enabled = false
+            local = true
+            src = "img/avatar.png"
+
+    [params.article]
+        [params.article.license]
+            enabled = false
+
+    [params.footer]
+        since = 2025
+
+[markup]
+    [markup.goldmark]
+        [markup.goldmark.renderer]
+            unsafe = true
+
+

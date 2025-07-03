@@ -1,0 +1,219 @@
+<!-- Custom site-wide styles for better text size -->
+<style>
+    :root {
+        font-size: 18px; /* Increase base font size for the entire site */
+    }
+    
+    /* Improve mobile font sizes too */
+    @media (max-width: 768px) {
+        :root {
+            font-size: 16px; /* Slightly smaller on mobile but still larger than default */
+        }
+        
+        body {
+            font-size: 16px;
+        }
+        
+        .article-content {
+            font-size: 1.1rem !important;
+        }
+    }
+
+    /* Tech stack styling */
+    .tech-stack {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .tech-stack h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--accent-color);
+    }
+
+    .tech-stack-category {
+        margin-bottom: 1rem;
+    }
+
+    .tech-stack-category h4 {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+        opacity: 0.8;
+    }
+
+    .tech-stack-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .tech-badge {
+        background-color: var(--card-background-selected);
+        border-radius: 4px;
+        padding: 0.2rem 0.5rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .social-links a {
+        display: flex;
+        align-items: center;
+        color: var(--accent-color);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    
+    .social-links a:hover {
+        color: var(--accent-color-darker);
+    }
+    
+    .social-links svg {
+        margin-right: 0.3rem;
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+    
+    /* LinkedIn recommendations styling */
+    .recommendations {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .recommendation {
+        background-color: var(--card-background);
+        border-left: 4px solid var(--accent-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow-l1);
+        position: relative;
+    }
+    
+    .recommendation-text {
+        font-style: italic;
+        margin-bottom: 1rem;
+        color: var(--card-text-color-main);
+        line-height: 1.7;
+    }
+    
+    .recommendation-author {
+        display: flex;
+        align-items: center;
+    }
+    
+    .recommendation-author-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 1rem;
+    }
+    
+    .recommendation-author-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .recommendation-author-info {
+        flex: 1;
+    }
+    
+    .recommendation-author-name {
+        font-weight: bold;
+        color: var(--card-text-color-main);
+    }
+    
+    .recommendation-author-title {
+        font-size: 0.9rem;
+        color: var(--card-text-color-secondary);
+    }
+    
+    .recommendation-icon {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        color: var(--card-text-color-tertiary);
+        opacity: 0.2;
+        font-size: 1.5rem;
+    }
+    
+    /* Quote marks */
+    .recommendation::before {
+        content: '"';
+        position: absolute;
+        top: 0.5rem;
+        left: 1rem;
+        font-size: 3rem;
+        font-family: Georgia, serif;
+        color: var(--card-text-color-tertiary);
+        opacity: 0.2;
+        line-height: 1;
+    }
+
+    /* Social header styling */
+    .header-social {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.5rem 1rem;
+        background-color: var(--card-background);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background-color: var(--card-background);
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .social-icon:hover {
+        background-color: var(--accent-color);
+        transform: translateY(-2px);
+    }
+    
+    .social-icon svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: var(--card-text-color-main);
+    }
+    
+    .social-icon:hover svg {
+        fill: white;
+    }
+
+    /* Ensure the main container starts below the social header */
+    .main-container {
+        margin-top: 0.5rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .header-social {
+            justify-content: center;
+        }
+    }
+</style>
+
+<!-- Using SVG icons directly, no need for Font Awesome -->

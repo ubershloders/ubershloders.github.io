@@ -1,0 +1,248 @@
+/* Custom styles for ubersholder's blog */
+
+// Import the recommendations styles
+@import "recommendations";
+
+:root {
+    --body-background: #f8f9fa;
+    --accent-color: #0d6efd;
+    --accent-color-darker: #0a58ca;
+    --card-background: #fff;
+    --card-border-radius: 12px;
+    --section-separation: 40px;
+    --link-hover-color: var(--accent-color-darker);
+}
+
+/* Dark mode colors */
+[data-scheme="dark"] {
+    --body-background: #111;
+    --accent-color: #3b82f6;
+    --accent-color-darker: #60a5fa;
+    --card-background: #1e1e1e;
+    --link-hover-color: var(--accent-color-darker);
+}
+
+/* Typography improvements */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.7;
+    font-size: 18px; /* Base font size increased */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem; /* Increased from 2.25rem */
+}
+
+h2 {
+    font-size: 2.1rem; /* Increased from 1.85rem */
+}
+
+h3 {
+    font-size: 1.8rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+pre {
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+code {
+    font-family: 'Fira Code', monospace, Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono';
+    font-size: 1em; /* Increased from 0.95em */
+}
+
+/* Article styling */
+.article-content {
+    font-size: 1.2rem; /* Increased from 1.05rem */
+}
+
+.article-content blockquote {
+    border-left: 4px solid var(--accent-color);
+    padding-left: 1rem;
+    font-style: italic;
+    color: var(--card-text-color-secondary);
+}
+
+/* Clean footer */
+footer.site-footer {
+    opacity: 0.85;
+    padding: 15px 0;
+}
+
+footer.site-footer:before {
+    width: 30px;
+    height: 2px;
+    margin-bottom: 15px;
+}
+
+/* Improved card aesthetics */
+.card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-l3);
+}
+
+/* Button styling */
+.button {
+    border-radius: 6px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+}
+
+/* About Page Styling */
+.recommendations {
+    margin-top: 2rem;
+    
+    .recommendation {
+        background-color: var(--card-background);
+        border-left: 4px solid var(--accent-color);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        
+        &-text {
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: var(--body-text-color);
+        }
+        
+        &-author {
+            display: flex;
+            align-items: center;
+            
+            &-info {
+                .recommendation-author-name {
+                    font-weight: bold;
+                    margin-bottom: 0.2rem;
+                }
+                
+                .recommendation-author-title {
+                    font-size: 0.9rem;
+                    color: var(--card-text-color-secondary);
+                }
+            }
+        }
+    }
+}
+
+/* Tech Stack Widget */
+.tech-stack {
+    .tech-stack-category {
+        margin-bottom: 1rem;
+    }
+    
+    .tech-stack-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .tech-badge {
+        background-color: var(--card-background);
+        color: var(--card-text-color-main);
+        padding: 0.3rem 0.6rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        display: inline-block;
+        border: 1px solid var(--card-separator-color);
+        
+        &:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+    }
+}
+
+/* Social Links in Sidebar */
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    
+    a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--body-text-color);
+        text-decoration: none;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        
+        svg {
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        
+        &:hover {
+            background-color: var(--card-background-selected);
+            color: var(--accent-color);
+        }
+    }
+}
+
+/* Increase text size for various site elements */
+.article-title {
+    font-size: 2.3rem !important;
+}
+
+.article-subtitle {
+    font-size: 1.4rem !important;
+}
+
+.article-list article .article-title {
+    font-size: 1.8rem !important;
+}
+
+.article-list article .article-subtitle {
+    font-size: 1.25rem !important;
+}
+
+.widget .widget-title {
+    font-size: 1.5rem !important;
+}
+
+.menu-item-name {
+    font-size: 1.2rem !important;
+}
+
+.sidebar .site-name {
+    font-size: 1.8rem !important;
+}
+
+.sidebar .site-description {
+    font-size: 1.2rem !important;
+}
+
+.tag-cloud-tags a {
+    font-size: 1.1rem !important;
+}
+
+.article-list--compact article .article-title {
+    font-size: 1.3rem !important;
+}
+
+.section-card h2 {
+    font-size: 1.7rem !important;
+}
+
+/* Improved readability for code blocks */
+.highlight pre {
+    font-size: 1.1rem !important;
+    padding: 1.5rem !important;
+}

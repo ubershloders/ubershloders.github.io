@@ -1,0 +1,76 @@
+// Recommendations styling
+.recommendations {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.recommendation {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.recommendation-text {
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: var(--card-text-color-main);
+  line-height: 1.6;
+  
+  &:before {
+    content: '\201C'; // Opening quotation mark
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-right: 0.2rem;
+  }
+  
+  &:after {
+    content: '\201D'; // Closing quotation mark
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-left: 0.2rem;
+  }
+}
+
+.recommendation-author {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.recommendation-author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-author-name {
+  font-weight: bold;
+  color: var(--card-text-color-main);
+}
+
+.recommendation-author-title {
+  font-size: 0.9rem;
+  color: var(--card-text-color-secondary);
+}
+
+// Responsive adjustments
+@media (min-width: 768px) {
+  .recommendations {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  
+  .recommendation {
+    flex: 1 1 calc(50% - 1.5rem);
+    min-width: 300px;
+  }
+}
