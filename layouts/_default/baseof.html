@@ -6,7 +6,7 @@
         {{- block "head" . -}}{{ end }}
     </head>
     <body class="{{ block `body-class` . }}{{ end }}">
-        {{- partial "head/colorScheme" . -}}
+        {{- partial "head/colorScheme.html" . -}}
 
         {{/* Add custom social header */}}
         {{- partial "header/social-header.html" . -}}
