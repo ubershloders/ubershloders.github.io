@@ -1,0 +1,12 @@
+# Hugo default output directory
+public/
+resources/
+
+# Hugo logs
+hugo_stats.json
+hugo_log.json
+
+# Local .env files with secrets
+.env
+.env.*
+!.env.example

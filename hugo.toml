@@ -15,6 +15,7 @@ pagerSize = 5
 [params]
     mainSections = ["post"]
     favicon = ""
+    google_analytics_id = "G-BQ30GL7KF0"  # Your Google Analytics ID
 
     [params.sidebar]
         emoji = ""

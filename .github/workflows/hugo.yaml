@@ -68,7 +68,11 @@ jobs:
             --gc \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/" \
-            --cacheDir "${{ runner.temp }}/hugo_cache"
+            --cacheDir "${{ runner.temp }}/hugo_cache" \
+            -e production \
+            --environment production
+        env:
+          HUGO_PARAMS_GOOGLE_ANALYTICS_ID: ${{ secrets.GOOGLE_ANALYTICS_ID }}
       - name: Disable Jekyll (ensure .nojekyll exists in public folder)
         run: |
           touch ./public/.nojekyll
