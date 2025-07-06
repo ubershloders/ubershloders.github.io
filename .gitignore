@@ -10,3 +10,4 @@ hugo_log.json
 .env
 .env.*
 !.env.example
+public/
