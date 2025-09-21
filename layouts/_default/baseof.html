@@ -4,6 +4,9 @@
         {{- partial "head/head.html" . -}}
         {{- partial "ga.html" . -}}
         {{- block "head" . -}}{{ end }}
+        <!-- Google AdSense -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5201282417891083"
+            crossorigin="anonymous"></script>
     </head>
     <body class="{{ block `body-class` . }}{{ end }}">
         {{- partial "head/colorScheme.html" . -}}
